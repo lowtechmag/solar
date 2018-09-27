@@ -1,2 +1,2 @@
-# low-tech-theme
-Theme for solar low-tech magazine
+# solar
+Theme for solar-powered low-tech magazine
