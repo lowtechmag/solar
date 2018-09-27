@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="{{ DEFAULT_LANG }}">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block head %}
+
+    <title>{% block title %}{{ SITENAME }}{% endblock title %}</title>
+
+    {% assets filters="libsass,cssmin", output="css/style.min.css", "css/style.scss" %}
+    <link rel="stylesheet" href="{{ SITEURL }}/{{ ASSET_URL }}">
+    {% endassets %}
+
+    {% from 'syndication.html' import syndication with context %}
+    {{ syndication(article) }}
+    {% if FEED_ALL_ATOM %}
+
+    <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Full Atom Feed" />
+    {% endif %}
+    {% if FEED_ALL_RSS %}
+    <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} Full RSS Feed" />
+    {% endif %}
+    {% if FEED_ATOM %}
+    <link href="{{ FEED_DOMAIN }}/{{ FEED_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Atom Feed" />
+    {% endif %}
+    {% if FEED_RSS %}
+    <link href="{{ FEED_DOMAIN }}/{{ FEED_RSS }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} RSS Feed" />
+    {% endif %}
+    {% if CATEGORY_FEED_ATOM and category %}
+    <link href="{{ FEED_DOMAIN }}/{{ CATEGORY_FEED_ATOM|format(category.slug) }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Categories Atom Feed" />
+    {% endif %}
+    {% if CATEGORY_FEED_RSS and category %}
+    <link href="{{ FEED_DOMAIN }}/{{ CATEGORY_FEED_RSS|format(category.slug) }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} Categories RSS Feed" />
+    {% endif %}
+    {% if TAG_FEED_ATOM and tag %}
+    <link href="{{ FEED_DOMAIN }}/{{ TAG_FEED_ATOM|format(tag.slug) }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Tags Atom Feed" />
+    {% endif %}
+    {% if TAG_FEED_RSS and tag %}
+    <link href="{{ FEED_DOMAIN }}/{{ TAG_FEED_RSS|format(tag.slug) }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} Tags RSS Feed" />
+
+    {% endif %}
+    {% endblock head %}
+
+</head>
+
+{% block body_class %}
+{% endblock body_class %}
+  <div id="battery">
+    <div id="bat_data">
+      <a href="{{ SITEURL }}/weather/"><span id="sky">☀</span><span id="level">100%</span></a></div>
+  </div>
+  <main>
+    <header class="top">
+	    <h1><a href="{{ SITEURL }}/">{{ SITENAME }}</a></h1>
+        <div class="subtitle">
+            {{ SITESUBTITLE }}
+        </div>
+        <nav id="menu">
+          <div id="menu-s">
+            menu
+          </div>
+          <ul>
+            <li><a href="{{ SITEURL }}/about/">About</a></li>
+            <li class="low"><a class="category" href="{{ SITEURL }}/category/low-tech-solutions.html">Low-tech Solutions</a></li>
+            <li class="hig"><a class="category" href="{{ SITEURL }}/category/high-tech-problems.html">High-tech Problems</a></li>
+            <li class="obs"><a class="category" href="{{ SITEURL }}/category/obsolete-technology.html">Obsolete Technology</a></li>
+            <li><a href="{{ SITEURL }}/archives.html">Archive</a></li>
+            <li><a href="{{ SITEURL }}/weather/">Weather</a></li>
+            <li><a href="{{ SITEURL }}/donate/">Donate</a></li>
+            <li class="social"><a href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" class="icon"><title>rss</title><circle cx="19.91" cy="58.23" r="6.86"/><path d="M67.89,65.72H55.7A41.86,41.86,0,0,0,13.89,23.91V11.73A54.06,54.06,0,0,1,67.89,65.72Z"/><path d="M48.93,65.72H36.75A22.88,22.88,0,0,0,13.89,42.87V30.68A35.08,35.08,0,0,1,48.93,65.72Z"/></svg></a></li>
+        </ul>
+      </nav><!-- /#menu -->
+    </header><!-- /#banner -->
+
+    {% block content %}
+    {% endblock %}
+<footer id="content-info" class="body">
+  <h2>
+    <a href="{{ SITEURL }}/">{{ SITENAME }}</a>
+  </h2>
+  <a href="{{ SITEURL }}/weather/">
+  <div class="dashboard">
+      Location: Barcelona / Time: <span id="time"></span> / Battery Level: <span id="dashboard_level">100%</span> / Charging: <span id="charge"></span> / Power Consumption: <span id="power"> power</span> / Server: <span id="uptime">uptime</span>
+      <div class="forecast">Forecast: </div>
+  </div></a>
+  <p>&copy; Kris De Decker | kris [at] lowtechmagazine [dot] com |
+     <a href="{{ SITEURL }}/privacy/">Privacy Policy</a> |
+    {% if SOCIAL or FEED_ALL_ATOM or FEED_ALL_RSS %}
+     <span class="social">
+        <a href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" class="icon"><title>rss</title><circle cx="19.91" cy="58.23" r="6.86"/><path d="M67.89,65.72H55.7A41.86,41.86,0,0,0,13.89,23.91V11.73A54.06,54.06,0,0,1,67.89,65.72Z"/><path d="M48.93,65.72H36.75A22.88,22.88,0,0,0,13.89,42.87V30.68A35.08,35.08,0,0,1,48.93,65.72Z"/></svg></a>
+        <a href="https://www.facebook.com/Lowtechmagazine/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" class="icon"><title>facebook</title><path d="M57.16,16.42H50.87c-4.93,0-5.85,2.36-5.85,5.77v7.57H56.76L55.2,41.61H45V72H32.77V41.61H22.56V29.76H32.77V21C32.77,10.9,39,5.37,48,5.37a78.35,78.35,0,0,1,9.13.48Z"/></svg></a>
+        <a href="https://twitter.com/lowtechmagazine"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" class="icon"><title>twitter</title><path d="M65.05,29.23c0,.56,0,1.12,0,1.68,0,17.1-13,36.8-36.8,36.8A36.54,36.54,0,0,1,8.44,61.91a26.68,26.68,0,0,0,3.12.16,25.9,25.9,0,0,0,16.06-5.53,13,13,0,0,1-12.09-9,16.28,16.28,0,0,0,2.44.2,13.67,13.67,0,0,0,3.4-.44A12.93,12.93,0,0,1,11,34.64v-.16a13,13,0,0,0,5.85,1.64,13,13,0,0,1-4-17.3A36.76,36.76,0,0,0,39.51,32.36a14.58,14.58,0,0,1-.32-3,12.95,12.95,0,0,1,22.38-8.85,25.45,25.45,0,0,0,8.21-3.12,12.9,12.9,0,0,1-5.69,7.13,25.93,25.93,0,0,0,7.45-2A27.79,27.79,0,0,1,65.05,29.23Z"/></svg></a>
+        <a href="mailto:kris@lowtechmagazine.com"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" class="icon"><title>email</title><path d="M4.95,13.14v55H74.33v-55Zm54.34,8.12L39.64,39.74,20,21.26ZM13.07,60V25.91l26.56,25,26.57-25V60Z"/></svg></a>
+     </span><!-- /.social -->
+     {% endif %}
+  </p>
+</footer><!-- /#contentinfo -->
+</main>
+
+<script
+  src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+  var url = "{{ SITEURL }}/api/stats.json";
+
+  var weather_ignore = ["snow", "sleet", "wind", "fog"];
+  var weather_data = ["today", "tomorrow", "day_after_t"];
+  var weather_days = ["today", "tomorrow", "day after tomorrow"];
+  var forecast = "";
+
+  function getServerData(url,target){
+    $.getJSON(url, function(data) {
+      var stats=[];
+      $.each(data, function(key, val) {
+          stats.push( "<li id='" + key + "'>" + key + ": " + val + "</li>" );
+      });
+      $( "<ul/>", {
+          "class": "stats",
+          html: stats.join( "" )
+      }).appendTo( ".data" );
+
+      var level = data.bat_capacity;
+
+      $('#battery').css('height',level);
+      $('#level, #dashboard_level').html(level);
+
+      var power = "";
+      if(data.ac_power=="0W"){
+        power = data.bat_power;
+      }else{
+        power = data.ac_power;
+      }
+      $('#power').html(power);
+      $('#charge').html(data.ac_used);
+
+      for(i=0; i<weather_data.length; i++){
+        var key = weather_data[i];
+        var icon_name = key+"_icon";
+        var icon = data[icon_name];
+        var text = data[key];
+        var img;
+        if (weather_ignore.includes(icon)){
+          img = "cloudy";
+        }else {
+          img = icon;
+        }
+        forecast += '<span class="weather_day" id="' + key +'">'+ weather_days[i] +' <img class="weather" src="/extra/'+ img +'.png" alt="'+ text +'" title="'+ text +'"></span><span class="weather_text"> '+text+'</span>';
+      }
+      $(target).append(forecast);
+      $('#uptime').html(data.uptime);
+      $('#time').html(data.local_time);
+    });
+  }
+  getServerData(url,'.forecast');
+  $('#menu-s').click(function(){
+    $(this).next('ul').slideToggle();
+  });
+
+</script>
+</body>
+</html>

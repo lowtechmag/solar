@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+{% block body_class %}
+<body class = "category-page {{category|lower|truncate(3,True, '')}}">
+{% endblock body_class %}
+
+{% block content %}
+<section id="content">
+  {% block content_title %}
+  <h1>{{ category }}</h1>
+  {% endblock %}
+<div class="description">
+  <p class="summary category-low">
+  Interesting possibilities arise when you combine old technology with new knowledge and new materials, or when you apply old concepts and traditional knowledge to modern technology.</p>
+  <p class="summary category-hig">
+    High-tech has become the idol of our society, but technological progress is&mdash;more often than not&mdash;aimed at solving problems caused by earlier technical inventions.
+  </p>
+  <p class="summary category-obs">There is a lot of potential in past and often forgotten knowledge and technologies when it comes to designing a sustainable society.</p>
+</div>
+<ul class="post-list">
+{% for article in articles_page.object_list %}
+        <li class = "{{article.category|lower|truncate(3,True, '')}}"><article>
+            {% if article.featured_image %}
+            <a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">
+            <div class="featured-img" style="background-image: url('{{ SITEURL }}{{ article.featured_image }}')">
+            </div>
+            {% endif %}
+            <h2 class="entry-title">{{ article.title }}</h2></a> 
+            {% if article.summary %}
+            <p class="index-summary">{{ article.summary }}</p>
+            {% endif %}
+            <time class="published" datetime="{{ article.date.isoformat() }}">{{ article.date|strftime('%B %Y')}}</time>
+        </article></li>
+{% endfor %}
+</ul>
+</section><!-- /#content -->
+{% if articles_page.has_other_pages() %} {% include 'pagination.html' %} {% endif %}
+
+{% endblock content %}

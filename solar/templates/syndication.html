@@ -1,0 +1,57 @@
+{#This template is for syndicating across the corporate part of the  web. It implements Open Graph and Twitter Card metadata to display links nicely on social media.
+# This code is mostly taken from Talha Mansoor's Elegant pelican theme https://github.com/talha131/pelican-elegant
+#}
+
+{# Thumbnail image to show when homepage is shared on social media. It also
+serves as the default image for posts whose featured_image is not set. #}
+{% if not FEATURED_IMAGE %}
+{% set FEATURED_IMAGE = 'https://solar.lowtechmagazine.com/extra/clear-day.png' %}
+{% else %}
+{% set FEATURED_IMAGE = FEATURED_IMAGE %}
+{% endif %}
+
+
+{% macro syndication(article) %}
+{% if article %}
+	<meta property="og:title" content="{{ article.title|striptags|e }} {%if article.subtitle %} - {{ article.subtitle|striptags|e }} {% endif %}"/>
+	<meta property="og:url" content="{{ SITEURL }}/{{ article.url }}" />
+	<meta property="og:description" content="{% if article.summary %}{{article.summary|striptags}}{% endif %}" />
+	<meta property="og:site_name" content="{{ SITENAME|striptags|e }}" />
+	<meta property="og:article:author" content="{{ article.author }}" />
+{% if article.date %}
+	<meta property="og:article:published_time" content="{{ article.date.isoformat() }}" />
+{% endif %}
+{% if article.locale_modified and article.modified %}
+	<meta property="" content="{{ article.modified.isoformat() }}" />
+{% endif %}
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="{{ article.title|striptags|e }} {%if article.subtitle %} - {{ article.subtitle|striptags|e }} {% endif %}">
+	<meta name="twitter:description" content="{% if article.summary %}{{article.summary|striptags}}{% endif %}">
+{% if article.featured_image %}
+	<meta property="og:image" content="{{ SITEURL }}{{ article.featured_image }}" />
+	<meta property="og:image:secure_url" content="{{ SITEURL }}{{ article.featured_image }}" />
+	<meta name="twitter:image" content="{{ SITEURL }}{{ article.featured_image }}" >           
+{% else %}
+{% if FEATURED_IMAGE %}
+	<meta property="og:image" content="{{FEATURED_IMAGE}}" />
+	<meta name="twitter:image" content="{{FEATURED_IMAGE}}" >
+{% endif %}
+{% endif %}
+{% endif %}
+{% if not article %}
+	<meta property="og:title" content="{{ SITENAME|striptags|e }}"/>
+	<meta name="twitter:title" content="{{ SITENAME|striptags|e }}">
+	<meta name="twitter:card" content="summary" />
+	<meta property="og:url" content="{{ SITEURL }}" />
+	<meta property="og:description" content="Low-tech Magazine refuses to assume that every problem has a high-tech solution. A simple, sensible, but nevertheless controversial message; high-tech has become the idol of our society.">
+	<meta property="twitter:description" content="Low-tech Magazine refuses to assume that every problem has a high-tech solution. A simple, sensible, but nevertheless controversial message; high-tech has become the idol of our society.">
+	<meta property="og:site_name" content="{{ SITENAME|striptags|e }}" />
+	<meta property="og:article:author" content="{{ AUTHOR }}" />
+{% if FEATURED_IMAGE %}
+	<meta property="og:image" content="{{FEATURED_IMAGE}}" />
+	<meta name="twitter:image" content="{{FEATURED_IMAGE}}" >
+{% endif %}
+{% endif %}
+{% endmacro %}
+
+

@@ -1,0 +1,17 @@
+{
+  "ac_power": "1.75W",
+  "ac_current": ".31Ah",
+  "ac_voltage": "5.47V",
+  "ac_used": "yes",
+  "bat_power": "0W",
+  "bat_current": "0Ah",
+  "bat_voltage": "4.18V",
+  "bat_capacity": "100%",
+  "bat_charging": "no",
+  "temperature": "32.90",
+  "uptime": "up 2 weeks, 2 days, 3 hours, 3 minutes",
+  "load_1": "0.25",
+  "load_5": "0.21",
+  "load_15": "0.15"
+}
+

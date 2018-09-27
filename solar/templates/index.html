@@ -1,0 +1,61 @@
+{% extends "base.html" %} {% block body_class %}
+
+<body class="index{{ articles_page.number }}">
+  {% endblock body_class %} {% block content %}
+  <section id="content">
+    {% block content_title %}{% endblock %}
+    <ul class="post-list cover {{articles_page.object_list[0].category|lower|truncate(3,True, '')}}">
+        <li>
+          <a href="{{ SITEURL }}/{{ articles_page.object_list[0].url }}" rel="bookmark" title="Permalink to {{ articles_page.object_list[0].title|striptags }}"><h2 class="entry-title">{{ articles_page.object_list[0].title }}</h2></a>
+          <a href="{{ SITEURL }}/{{ articles_page.object_list[0].category.url }}" class="category">{{ articles_page.object_list[0].category }}</a>
+          {% if articles_page.object_list[0].summary %}
+            <p class="index-summary">{{ articles_page.object_list[0].summary }}</p>
+          {% endif %}
+          <time class="published" datetime="{{ articles_page.object_list[0].date.isoformat() }}">{{ articles_page.object_list[0].date|strftime('%B %Y')}}</time>
+        </li>
+        <li>
+        {% if articles_page.object_list[0].featured_image %}
+          <a href="{{ SITEURL }}/{{ articles_page.object_list[0].url }}" rel="bookmark" title="Permalink to {{ articles_page.object_list[0].title|striptags }}"><div class="featured-img" style="background-image: url('{{ SITEURL }}/{{ articles_page.object_list[0].featured_image }}')">
+          </div></a>
+        {% endif %}
+      </li>
+    </ul>
+    <ul class="post-list recent">
+      {% for article in articles_page.object_list[1 : 9] %}
+      <li class="{{article.category|lower|truncate(3,True, '')}}">
+        <article>
+          <a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">
+          {% if article.featured_image %}
+            <div class="featured-img" style="background-image: url('{{ SITEURL }}/{{ article.featured_image }}')"></div>
+          {% endif %}
+          <h2 class="entry-title">{{ article.title }}</h2></a>
+          <a href="{{ SITEURL }}/{{ article.category.url }}" class="category">{{ article.category }}</a>
+          {% if article.summary %}
+            <p class="index-summary">{{ article.summary }}</p>
+          {% endif %}
+          <time class="published" datetime="{{ article.date.isoformat() }}">{{ article.date|strftime('%B %Y')}}</time>
+        </article>
+      </li>
+      {% endfor %}
+    </ul>
+    <!-- /posts-list -->
+    <ul class="post-list popular">
+      {% for article in articles[9:] %} {% if article.display == "cover" %}
+      <li class="{{article.category|lower|truncate(3,True, '')}}">
+
+          <article>
+            <a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="{{ article.title|striptags }}"><h2 class="entry-title">{{ article.title }}</h2></a>
+            <a href="{{ SITEURL }}/{{ article.category.url }}" class="category">{{ article.category }}</a>
+            {% if article.summary %}
+            <p class="index-summary">{{ article.summary }}</p>
+            {% endif %}
+            <time class="published" datetime="{{ article.date.isoformat() }}">{{ article.date|strftime('%B %Y')}}</time>
+          </article>
+      </li>
+      {% endif %} {% endfor %}
+    </ul>
+  </section>
+  <!-- /#content -->
+  {% if articles_page.has_other_pages() %} {% include 'pagination.html' %} {% endif %}
+
+  {% endblock content %}

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block body_class %}
+<body>
+{% endblock body_class %}
+
+{% block content %}
+<section id="archive">
+{% block content_title %}
+
+{% endblock %}
+
+<div id="filters">
+    <div class="filter active desc" id="date">
+    Date
+    </div>
+
+    <div class="filter asc" id="title">
+    Title
+    </div>
+
+    <div class="filter asc" id="cat">
+    Theme
+    </div>
+</div>
+
+<ul>
+{% for article in dates %}
+  {% if article.display != "hidden" %}
+    <li class = "{{article.category|lower|truncate(3,True, '')}}"><article>
+            <time class="published" datetime="{{ article.date.isoformat() }}">{{ article.date|strftime('%B %Y')}}</time>
+            <div class="entry-title"><a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">{{ article.title }}</a></div>
+            <div class="{{ article.category}}"><a href="{{ SITEURL }}/{{ article.category.url }}" class="category">{{ article.category }}</a> </div>
+    </article></li>
+  {% endif %}
+{% endfor %}
+</ul><!-- /#archive-list -->
+</section><!-- /#content -->
+
+<!-- LIST SORTING-------------->
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+<script
+src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/tinysort.min.js"></script>
+
+<script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/FileSaver.min.js"></script>
+<script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/jszip.min.js"></script>
+
+<script>
+  var listElements = document.querySelectorAll('#archive ul li');
+  var filters = document.getElementsByClassName('filter');
+
+  for (var i = 0; i < filters.length; i++) {
+      filters[i].addEventListener('click', sort, false);
+  }
+
+  function sort() {
+    for (var j = 0; j < filters.length; j++) {
+        filters[j].classList.remove('active');
+    }
+    this.classList.add('active');
+    this.classList.toggle('desc');
+    this.classList.toggle('asc');
+
+    var type = (this).id;
+    switch (type) {
+      case "title":
+          tinysort(listElements,{selector:'.entry-title',order:(this.isAsc=!this.isAsc)?'asc':'desc'});
+          break;
+      case "date":
+          tinysort(listElements,{selector:'time',attr:'datetime',order:(this.isAsc=!this.isAsc)?'asc':'desc'});
+          break;
+      case "cat":
+          tinysort(listElements,{selector:'.category',order:(this.isAsc=!this.isAsc)?'asc':'desc'});
+          break;
+    }
+  }
+
+</script>
+
+{% endblock content %}

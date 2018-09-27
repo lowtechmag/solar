@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block head %}
+  {{ super() }}
+  {% if article.description %}
+    <meta name="description" content="{{ article.description }}" />
+  {% endif %}
+
+  {% for tag in article.tags %}
+    <meta name="tags" content="{{tag}}" />
+  {% endfor %}
+{% endblock %}
+
+{% block body_class %}
+<body class = "{{article.category|lower|truncate(3,True, '')}}">
+{% endblock body_class %}
+
+{% block content %}
+<section id="content" class="article">
+  <header>
+    <a href="{{ SITEURL }}/{{ article.category.url }}" class="category">{{ article.category }}</a>
+    <h1 class="entry-title">
+     {{ article.title }}</h1>
+    <div class="translations">
+     {% import 'translations.html' as translations with context %}
+     {{ translations.translations_for(article) }}
+    </div>
+    <p class="summary">
+      {{ article.summary }}
+    </p>
+  </header>
+
+  <div class="entry-content">
+    {{ article.content }}
+  </div><!-- /.entry-content -->
+<!--   <div id="send-comment">
+    <a href="mailto:kris@lowtechmagazine.com?subject=comments on {{ article.title }}" class="button" title="Comment">Send a letter to the editor</a>
+  </div> -->
+  <div class="post-info gray">
+    <time class="published" datetime="{{ article.date.isoformat() }}">
+      {{ article.locale_date }}
+    </time>
+  {% if article.modified %}
+     <time class="modified" datetime="{{ article.modified.isoformat() }}">
+      {{ article.locale_modified }}
+    </time>
+  {% endif %}
+    {% if article.authors %}
+    <address>
+      by {% for author in article.authors %}
+          <a class="url fn" href="{{ SITEURL }}/{{ author.url }}">{{ author }}</a>
+      {% endfor %}
+
+      {% if article.editor %}
+      (edited by {{ article.editor}})
+      {% endif %}
+
+      {% if article.translator %}
+      | translated by
+          {{ article.translator }}
+      {% endif %}
+    </address>
+    {% endif %}
+  </div><!-- /.post-info -->
+
+</section>
+{% if article.related_posts %}
+<h3 class="related">Related Articles</h3>
+    <div class="post-info gray">
+      {% include 'taglist.html' %}
+    </div>
+    <ul class="post-list">
+    {% for related_post in article.related_posts %}
+        <li class="{{related_post.category|lower|truncate(3,True, '')}}">
+        <article>
+          <a href="{{ SITEURL }}/{{ related_post.url }}" rel="bookmark" title="Permalink to {{ related_post.title|striptags }}">
+          {% if related_post.featured_image %}
+            <div class="featured-img" style="background-image: url('{{ SITEURL }}/{{ related_post.featured_image }}')">
+            </div>
+          {% endif %}
+          <h2 class="entry-title">{{ related_post.title }}</h2></a>
+          <a href="{{ SITEURL }}/{{ related_post.category.url }}" class="category">{{ related_post.category }}</a>
+          {% if related_post.summary %}
+            <p class="index-summary">{{ related_post.summary }}</p>
+          {% endif %}
+          <time class="published" datetime="{{ related_post.date.isoformat() }}">{{ related_post.date|strftime('%B %Y')}}</time>
+        </article>
+      </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<ul id="post-nav">
+ {% if article.next_article %}
+      <li class="newer">
+          <p class="gray">&larr; newer article</p>
+          <a href="{{ SITEURL }}/{{ article.next_article.url}}">
+              {{ article.next_article.title }}
+          </a>
+      </li>
+ {% endif %}
+ {% if article.prev_article %}
+      <li class="older">
+        <p class="gray">older article &rarr;</p>
+        <a href="{{ SITEURL }}/{{ article.prev_article.url}}">
+            {{ article.prev_article.title }}
+        </a>
+      </li>
+ {% endif %}
+</ul>
+{% endblock %}
