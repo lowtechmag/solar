@@ -1,6 +1,6 @@
 # solar pelican theme
 
-Solar is a pelican theme designed for <solar.lowtechmagazine.com>. It is an attempt to radically reduce the energy use the associated with accessing our content. 
+Solar is a pelican theme designed for <https://solar.lowtechmagazine.com>. It is an attempt to radically reduce the energy use the associated with accessing our content. 
 
 The theme is designed to be extremely light and give visitors insight into the material conditions of the hardware the website runs on.
 
