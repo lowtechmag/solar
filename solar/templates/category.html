@@ -16,7 +16,7 @@
   </p>
   <p class="summary category-obs">There is a lot of potential in past and often forgotten knowledge and technologies when it comes to designing a sustainable society.</p>
 </div>
-<ul class="post-list">
+<ul class="cols">
 {% for article in articles_page.object_list %}
         <li class = "{{article.category|lower|truncate(3,True, '')}}"><article>
             {% if article.featured_image %}

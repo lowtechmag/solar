@@ -4,7 +4,7 @@
   {% endblock body_class %} {% block content %}
   <section id="content">
     {% block content_title %}{% endblock %}
-    <ul class="post-list cover {{articles_page.object_list[0].category|lower|truncate(3,True, '')}}">
+    <ul class="cols cover {{articles_page.object_list[0].category|lower|truncate(3,True, '')}}">
         <li>
           <a href="{{ SITEURL }}/{{ articles_page.object_list[0].url }}" rel="bookmark" title="Permalink to {{ articles_page.object_list[0].title|striptags }}"><h2 class="entry-title">{{ articles_page.object_list[0].title }}</h2></a>
           <a href="{{ SITEURL }}/{{ articles_page.object_list[0].category.url }}" class="category">{{ articles_page.object_list[0].category }}</a>
@@ -20,7 +20,7 @@
         {% endif %}
       </li>
     </ul>
-    <ul class="post-list recent">
+    <ul class="cols recent">
       {% for article in articles_page.object_list[1 : 9] %}
       <li class="{{article.category|lower|truncate(3,True, '')}}">
         <article>
@@ -39,7 +39,7 @@
       {% endfor %}
     </ul>
     <!-- /posts-list -->
-    <ul class="post-list popular">
+    <ul class="cols popular">
       {% for article in articles[9:] %} {% if article.display == "cover" %}
       <li class="{{article.category|lower|truncate(3,True, '')}}">
 

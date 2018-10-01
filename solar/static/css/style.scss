@@ -44,6 +44,11 @@ h1 {
 	line-height: 0.95;
 	text-indent: -.15rem;
 }
+h3 {
+	font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
 
 p {
 	line-height: 1.4;
@@ -67,7 +72,7 @@ a {
 }
 
 /*
-BACKGROUND
+BACKGROUND and BATTERY METER
 */
 #battery {
 	position: fixed;
@@ -78,19 +83,47 @@ BACKGROUND
 }
 
 #bat_data {
-	border-top: 1px solid $color_sub;
-	position: absolute;
-	top: 0;
+	position: fixed;
+	bottom: 0;
 	right: 0;
-	z-index: 20;
-	color: $color_sub;
+	z-index: 100;
 	font-size: 0.75rem;
 	text-align: right;
-	padding-right: 1rem;
+	padding: 3px .5rem 0 0;
+	border-top: 1px solid #000;
+	a:hover{
+
+	}
 }
-#spark{
+
+.bat_status{
 	display: inline-block;
+}
+.bat_icon{
+	display: inline-block;
+  width: 15px;
+  vertical-align: bottom;
+}
+
+footer .bat_icon{
 	width: 20px;
+  vertical-align: bottom;
+}
+.svg_bat_icon{
+	fill:none;
+	stroke:#000;
+	stroke-miterlimit:10;
+	stroke-width:33px;
+}
+.charging .svg_bat_icon{
+	fill:#000;
+}
+
+#level::after, #dashboard_level::after{
+	content: "\2193";
+}
+.charging #level::after, .charging #dashboard_level::after{
+	content: "\2191";
 }
 
 main {
@@ -177,6 +210,12 @@ NAVIGATION
 	}
 }
 
+#menu-list .social {
+			position: relative;
+	    top: 3px;
+	    left: -5px;
+		}
+
 nav .category {
 	display: inline-block;
 }
@@ -191,8 +230,6 @@ nav .category {
 }
 
 .social {
-	display: inline-block;
-	vertical-align: -3px;
 	a:last-child{
 		padding-left: 5px;
 	}
@@ -227,7 +264,7 @@ time {
 	font-size: $font_s;
 }
 
-.post-list {
+.cols {
 	list-style-type: none;
 	width: 100%;
 	display: flex;
@@ -436,6 +473,7 @@ ARTICLE TYPOGRAPHY
 	ol,
 	ul {
 		margin: 2*$pad auto;
+		line-height: 1.4;
 	}
 
 	p.img {
@@ -452,7 +490,7 @@ ARTICLE TYPOGRAPHY
 	.caption{
 		display: block;
     background: white;
-		padding: .5*$pad;
+		padding: $pad 0;
 	}
 	li {
 		margin-left: 2*$pad;
@@ -488,7 +526,7 @@ blockquote {
 	}
 }
 
-img {
+.entry-content img {
 	width: 100%;
 	display: block;
 }
@@ -602,12 +640,15 @@ footer#content-info {
 		margin-top: $pad;
 		width: auto;
 	}
-	h2 {
-		margin-bottom: 1rem;
-	}
 	border-top: 2px solid $color;
 	padding: $pad 0;
 	overflow: auto;
+	a {
+		text-decoration: underline;
+	}
+	a:hover, h2 a{
+		text-decoration: none;
+	}
 }
 
 address {
@@ -645,14 +686,23 @@ address {
 	}
 }
 // FOOTER
-footer .dashboard{
-	margin-top: -0.3rem;
-	.weather_day::before{
-		content: " — "
+
+footer{
+	.dashboard{
+		.weather_day::before{
+			content: " ";
+			display: block;
+		}
+		.weather_day:first-child::before{
+			content: "";
+		}
+		li {
+			width: 25%;
+		}
 	}
-	.weather_day:first-child::before{
-		content: "";
-	}
+}
+#charge_icon svg{
+	  width: 12px;
 }
 
 img.weather{
@@ -676,11 +726,30 @@ footer .weather_text {
   text-transform: uppercase;
 }
 
+
+// Server Stats
+dl {
+    margin-bottom:50px;
+}
+
+dt, dd {
+	padding: $pad 0;
+	border-bottom: 2px solid #000;
+}
+
+dt {
+	width: 300px;
+	float: left;
+	padding-right: 1rem;
+}
+
+
+
 /*
 MEDIA QUERIES
 */
 @media screen and (max-width: 1100px) {
-	.post-list li {
+	.cols li {
 		max-width: 50%;
 		&:nth-child(2n){
 			padding-right: 0;
@@ -700,7 +769,7 @@ MEDIA QUERIES
 			background-size: 120%;
 	}
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 890px) {
 	#menu-s{
 		display: block;
 		text-transform: uppercase;
@@ -711,20 +780,33 @@ MEDIA QUERIES
 			color: $color_sub;
 		}
 	}
+
+	#menu-list{
+		height: 0;
+		overflow: hidden;
+		transition: height 300ms ease-in-out;
+	}
+	#menu-list.show{
+		height: 280px;
+	}
 	#menu {
-		ul {
-			display: none;
-		}
 		li {
 			display: block;
+			margin: $pad 0;
 		}
 		li::after, li:last-child::after{
 			content: "";
 		}
+		li.social{
+			margin-left: -.25rem;
+		}
+	}
+	footer .cols li{
+		width: 50%;
 	}
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 890px) {
 	#menu {
 		ul {
 			display: inline-block;
@@ -733,20 +815,25 @@ MEDIA QUERIES
 }
 
 @media screen and (max-width: 620px) {
-
-	.top h1{
-		font-size:2.3rem;
+	h1 {
+		font-size: 2rem;
 	}
-	.post-list.cover{
+	.top h1{
+		font-size:2rem;
+	}
+	.cols.cover{
 		flex-direction: column-reverse;
 	}
 	.cover li, .cover li:nth-child(2){
 		width: 100%;
 		padding: 0;
 	}
-	.post-list li {
+	.cols li {
 		max-width: 100%;
 		padding-right: 0;
+	}
+	footer .cols li{
+		width: 100%;
 	}
 
 	.button{
@@ -794,5 +881,19 @@ MEDIA QUERIES
 			font-size: 0.8rem;
 		}
 	}
+
+	dt, dd{
+		padding: 0;
+	}
+
+	dt {
+		border-bottom: 0;
+		width: 100%;
+		float: none;
+	}
+
+}
+
+@media print {
 
 }

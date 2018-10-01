@@ -68,7 +68,7 @@
     <div class="post-info gray">
       {% include 'taglist.html' %}
     </div>
-    <ul class="post-list">
+    <ul class="cols">
     {% for related_post in article.related_posts %}
         <li class="{{related_post.category|lower|truncate(3,True, '')}}">
         <article>
