@@ -1,8 +1,12 @@
 /*
-	Name: Low-tech theme
-	Date: August 2018
-	Description: Custom theme for Low-Tech Magazine
-	Version: 3.0
+	Theme Name: Solar
+	Theme URI: https://github.com/lowtechmag/solar
+	Description: Solar is a pelican theme designed for https://solar.lowtechmagazine.com. It is an attempt to radically reduce the energy use the associated with accessing our content.
+	Version: 1.0
+	Author: Marie Otsuka, Roel Rosam Abbing
+  Author URI: http://motsuka.com/, http://roelof.info/
+	License: AGPL 3.0
+	License URI: https://choosealicense.com/licenses/agpl-3.0/
 */
 $color: black;
 $color_sky: #f0f8ff;
@@ -11,7 +15,6 @@ $color_bg: #fff5d1;
 $color_low: #162dab;
 $color_hig: #d11305;
 $color_obs: #006951;
-// $font_family: Arial, sans-serif;
 $pad: 0.5rem;
 $font_s: 0.8rem;
 
@@ -26,7 +29,6 @@ html {
 }
 
 body {
-	// font-family: $font_family;
 	background: $color_sky;
 }
 
@@ -44,6 +46,7 @@ h1 {
 	line-height: 0.95;
 	text-indent: -.15rem;
 }
+
 h3 {
 	font-size: 1rem;
   text-transform: uppercase;
@@ -67,6 +70,7 @@ a {
 	margin: auto;
 	padding-bottom: 2*$pad;
 }
+
 #content h1 {
 	margin-top: 2*$pad;
 }
@@ -99,6 +103,7 @@ BACKGROUND and BATTERY METER
 .bat_status{
 	display: inline-block;
 }
+
 .bat_icon{
 	display: inline-block;
   width: 15px;
@@ -109,12 +114,14 @@ footer .bat_icon{
 	width: 20px;
   vertical-align: bottom;
 }
+
 .svg_bat_icon{
 	fill:none;
 	stroke:#000;
 	stroke-miterlimit:10;
 	stroke-width:33px;
 }
+
 .charging .svg_bat_icon{
 	fill:#000;
 }
@@ -122,6 +129,7 @@ footer .bat_icon{
 #level::after, #dashboard_level::after{
 	content: "\2193";
 }
+
 .charging #level::after, .charging #dashboard_level::after{
 	content: "\2191";
 }
@@ -139,6 +147,7 @@ CATEGORY COLORS
 .description p {
 	display: none;
 }
+
 .low, li.low {
 	.featured-img,
 	p.img {
@@ -327,9 +336,11 @@ time {
 		font-size: $font_s;
 	}
 }
+
 .index1 .popular{
 	display: flex;
 }
+
 .paginator{
 	margin: 2rem auto;
   text-align: center;
@@ -355,23 +366,28 @@ ARCHIVES
 			border-color: $color;
 		}
 	}
+
 	.category,
 	.entry-title,
 	time {
 		float: left;
 		padding-right: $pad;
 	}
+
 	time{
 		color: black;
 		font-size: 1rem;
 	}
+
 	time, #date {
 		width: 20%;
 	}
+
 	#title,
 	.entry-title {
 		width: 60%;
 	}
+
 	#cat,
 	.category {
 		margin: 0;
@@ -483,15 +499,18 @@ ARTICLE TYPOGRAPHY
 		max-width: none;
 		mix-blend-mode: multiply;
 	}
+
 	img {
 		display: block;
 		mix-blend-mode: hard-light;
 	}
+
 	.caption{
 		display: block;
     background: white;
 		padding: $pad 0;
 	}
+
 	li {
 		margin-left: 2*$pad;
 		margin-bottom: $pad;
@@ -542,6 +561,7 @@ hr {
 	border: 0;
 	border-top: 2px solid black;
 }
+
 .footnote {
 	font-size: $font_s;
 	padding-top: $pad;
@@ -661,6 +681,7 @@ address {
 	border-top: 2px solid black;
 	padding-top: $pad;
 }
+
 #post-nav {
 	width: 100%;
 	list-style-type: none;
@@ -749,12 +770,14 @@ dt {
 MEDIA QUERIES
 */
 @media screen and (max-width: 1100px) {
+	
 	.cols li {
 		max-width: 50%;
 		&:nth-child(2n){
 			padding-right: 0;
 		}
 	}
+	
 	.cover li:nth-child(2){
 		flex: 1;
 	}
@@ -765,10 +788,12 @@ MEDIA QUERIES
 			background-size: auto 140%;
 		}
 	}
+	
 	.featured-img{
 			background-size: 120%;
 	}
 }
+
 @media screen and (max-width: 890px) {
 	#menu-s{
 		display: block;
@@ -786,9 +811,11 @@ MEDIA QUERIES
 		overflow: hidden;
 		transition: height 300ms ease-in-out;
 	}
+	
 	#menu-list.show{
 		height: 280px;
 	}
+	
 	#menu {
 		li {
 			display: block;
@@ -801,16 +828,15 @@ MEDIA QUERIES
 			margin-left: -.25rem;
 		}
 	}
+	
 	footer .cols li{
 		width: 50%;
 	}
 }
 
 @media screen and (min-width: 890px) {
-	#menu {
-		ul {
+	#menu ul {
 			display: inline-block;
-		}
 	}
 }
 
@@ -818,28 +844,33 @@ MEDIA QUERIES
 	h1 {
 		font-size: 2rem;
 	}
+	
 	.top h1{
 		font-size:2rem;
 	}
+	
 	.cols.cover{
 		flex-direction: column-reverse;
 	}
+	
 	.cover li, .cover li:nth-child(2){
 		width: 100%;
 		padding: 0;
 	}
+	
 	.cols li {
 		max-width: 100%;
 		padding-right: 0;
 	}
+	
 	footer .cols li{
 		width: 100%;
 	}
-
+	
 	.button{
 		width: 100%;
 	}
-
+	
 	.entry-content {
 		h2 {
 			font-size: 1.5rem;
@@ -857,11 +888,11 @@ MEDIA QUERIES
 			width: 100%;
 		}
 	}
-
+	
 	.footnote {
 		width: 100%;
 	}
-
+	
 	#archive {
 		li:hover{
 			border-color: transparent;
@@ -881,19 +912,14 @@ MEDIA QUERIES
 			font-size: 0.8rem;
 		}
 	}
-
+	
 	dt, dd{
 		padding: 0;
 	}
-
+	
 	dt {
 		border-bottom: 0;
 		width: 100%;
 		float: none;
 	}
-
-}
-
-@media print {
-
 }
