@@ -1,7 +1,8 @@
-{% extends "base.html" %} {% block body_class %}
-
+{% extends "base.html" %}
+{% block body_class %}
 <body class="index{{ articles_page.number }}">
-  {% endblock body_class %} {% block content %}
+{% endblock body_class %}
+{% block content %}
   <section id="content">
     {% block content_title %}{% endblock %}
     <ul class="cols cover {{articles_page.object_list[0].category|lower|truncate(3,True, '')}}">

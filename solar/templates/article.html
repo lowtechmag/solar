@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% block title %}{{ article.title }} | {{ SITENAME }}{% endblock title %}
+
 {% block head %}
   {{ super() }}
   {% if article.description %}
@@ -32,8 +34,8 @@
   <div class="entry-content">
     {{ article.content }}
   </div><!-- /.entry-content -->
-<!--   <div id="send-comment">
-    <a href="mailto:kris@lowtechmagazine.com?subject=comments on {{ article.title }}" class="button" title="Comment">Send a letter to the editor</a>
+  <!-- <div id="send-comment">
+    <a href="mailto:solar@lowtechmagazine.com?subject=comments on {{ article.title }}" class="button" title="Comment">Send a letter to the editor <svg viewBox="0 0 80 80" class="icon"><title>email</title><path d="M4.95,13.14v55H74.33v-55Zm54.34,8.12L39.64,39.74,20,21.26ZM13.07,60V25.91l26.56,25,26.57-25V60Z"></path></svg></a>
   </div> -->
   <div class="post-info gray">
     <time class="published" datetime="{{ article.date.isoformat() }}">
@@ -64,6 +66,7 @@
 
 </section>
 {% if article.related_posts %}
+<section id="related">
 <h3 class="related">Related Articles</h3>
     <div class="post-info gray">
       {% include 'taglist.html' %}
@@ -88,7 +91,7 @@
     {% endfor %}
     </ul>
 {% endif %}
-
+</section>
 <ul id="post-nav">
  {% if article.next_article %}
       <li class="newer">

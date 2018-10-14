@@ -39,46 +39,10 @@
 <!-- LIST SORTING-------------->
 
 <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
-
-<script
 src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/tinysort.min.js"></script>
 
-<script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/FileSaver.min.js"></script>
-<script src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/js/jszip.min.js"></script>
-
 <script>
-  var listElements = document.querySelectorAll('#archive ul li');
-  var filters = document.getElementsByClassName('filter');
-
-  for (var i = 0; i < filters.length; i++) {
-      filters[i].addEventListener('click', sort, false);
-  }
-
-  function sort() {
-    for (var j = 0; j < filters.length; j++) {
-        filters[j].classList.remove('active');
-    }
-    this.classList.add('active');
-    this.classList.toggle('desc');
-    this.classList.toggle('asc');
-
-    var type = (this).id;
-    switch (type) {
-      case "title":
-          tinysort(listElements,{selector:'.entry-title',order:(this.isAsc=!this.isAsc)?'asc':'desc'});
-          break;
-      case "date":
-          tinysort(listElements,{selector:'time',attr:'datetime',order:(this.isAsc=!this.isAsc)?'asc':'desc'});
-          break;
-      case "cat":
-          tinysort(listElements,{selector:'.category',order:(this.isAsc=!this.isAsc)?'asc':'desc'});
-          break;
-    }
-  }
-
+  var listElements = document.querySelectorAll('#archive ul li'); var filters = document.getElementsByClassName('filter'); for (var i = 0; i < filters.length; i++) { filters[i].addEventListener('click', sort, false); } function sort() { for (var j = 0; j < filters.length; j++) { filters[j].classList.remove('active'); } this.classList.add('active'); this.classList.toggle('desc'); this.classList.toggle('asc'); var type = (this).id; switch (type) { case "title": tinysort(listElements,{selector:'.entry-title',order:(this.isAsc=!this.isAsc)?'asc':'desc'}); break; case "date": tinysort(listElements,{selector:'time',attr:'datetime',order:(this.isAsc=!this.isAsc)?'asc':'desc'}); break; case "cat": tinysort(listElements,{selector:'.category',order:(this.isAsc=!this.isAsc)?'asc':'desc'}); break; } }
 </script>
 
 {% endblock content %}

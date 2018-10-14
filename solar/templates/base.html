@@ -8,7 +8,7 @@
   <title>{% block title %}{{ SITENAME }}{% endblock title %}</title>
 
   {% assets filters="libsass,cssmin", output="css/style.min.css", "css/style.scss" %}
-  <link rel="stylesheet" href="/{{ ASSET_URL }}"> {% endassets %} {% from 'syndication.html' import syndication with context %} {{ syndication(article) }} {% if FEED_ALL_ATOM %}
+  <link rel="stylesheet" href="{{ SITEURL }}/{{ ASSET_URL }}"> {% endassets %} {% from 'syndication.html' import syndication with context %} {{ syndication(article) }} {% if FEED_ALL_ATOM %}
 
   <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Full Atom Feed" /> {% endif %} {% if FEED_ALL_RSS %}
   <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} Full RSS Feed" /> {% endif %} {% if FEED_ATOM %}
@@ -18,12 +18,15 @@
   <link href="{{ FEED_DOMAIN }}/{{ CATEGORY_FEED_RSS|format(category.slug) }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} Categories RSS Feed" /> {% endif %} {% if TAG_FEED_ATOM and tag %}
   <link href="{{ FEED_DOMAIN }}/{{ TAG_FEED_ATOM|format(tag.slug) }}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Tags Atom Feed" /> {% endif %} {% if TAG_FEED_RSS and tag %}
   <link href="{{ FEED_DOMAIN }}/{{ TAG_FEED_RSS|format(tag.slug) }}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} Tags RSS Feed" /> {% endif %} {% endblock head %}
-
 </head>
 
-{% block body_class %} {% endblock body_class %}
+{% block body_class %}
+<body>
+{% endblock body_class %}
 <div id="bat_data" class="bat_status">
-  <a href="{{ SITEURL }}/weather/" title="Battery Status"><span id="level">0%</span></a>
+  <a href="{{ SITEURL }}/power.html" title="Battery Capacity">
+    <span id="charge_icon"></span>
+    <span id="level">0%</span></a>
 </div>
 <div id="battery">
 </div>
@@ -31,20 +34,19 @@
   <header class="top">
     <h1><a href="{{ SITEURL }}/">{{ SITENAME }}</a></h1>
     <div class="subtitle">
-      {{ SITESUBTITLE }}
+      <a href="{{ SITEURL }}/power.html">{{ SITESUBTITLE }} <svg class="icon" viewBox="0 0 500 500"><title>Solar</title><circle class="svg_fill" cx="248.48" cy="252.55" r="97.03"/><rect class="svg_fill" x="234.53" y="17.45" width="27.9" height="112.39"/><rect class="svg_fill" x="234.53" y="375.25" width="27.9" height="112.39"/><rect class="svg_fill" x="413.42" y="196.35" width="27.9" height="112.39" transform="translate(679.92 -174.83) rotate(90)"/><rect class="svg_fill" x="55.63" y="196.35" width="27.9" height="112.39" transform="translate(322.12 182.97) rotate(90)"/><rect class="svg_fill" x="361.03" y="69.85" width="27.9" height="112.39" transform="translate(198.96 -228.23) rotate(45)"/><rect class="svg_fill" x="108.03" y="322.85" width="27.9" height="112.39" transform="translate(303.75 24.77) rotate(45)"/><rect class="svg_fill" x="361.03" y="322.85" width="27.9" height="112.39" transform="translate(908.15 381.93) rotate(135)"/><rect class="svg_fill" x="108.03" y="69.85" width="27.9" height="112.39" transform="translate(297.35 128.93) rotate(135)"/></svg></a>
     </div>
     <nav id="menu">
       <div id="menu-s">
         menu
       </div>
       <ul id="menu-list">
-        <li><a href="{{ SITEURL }}/about/">About</a></li>
-        <li class="low"><a class="category" href="{{ SITEURL }}/category/low-tech-solutions.html">Low-tech Solutions</a></li>
-        <li class="hig"><a class="category" href="{{ SITEURL }}/category/high-tech-problems.html">High-tech Problems</a></li>
-        <li class="obs"><a class="category" href="{{ SITEURL }}/category/obsolete-technology.html">Obsolete Technology</a></li>
+        <li><a href="{{ SITEURL }}/about.html">About</a></li>
+        <li class="low"><a class="category" href="{{ SITEURL }}/low-tech-solutions.html">Low-tech Solutions</a></li>
+        <li class="hig"><a class="category" href="{{ SITEURL }}/high-tech-problems.html">High-tech Problems</a></li>
+        <li class="obs"><a class="category" href="{{ SITEURL }}/obsolete-technology.html">Obsolete Technology</a></li>
         <li><a href="{{ SITEURL }}/archives.html">Archive</a></li>
-        <li><a href="{{ SITEURL }}/weather/">Weather</a></li>
-        <li><a href="{{ SITEURL }}/donate/">Donate</a></li>
+        <li><a href="{{ SITEURL }}/donate.html">Donate</a></li>
         <li class="social"><a href="{{ FEED_DOMAIN }}/{{ FEED_ALL_RSS }}" type="application/rss+xml" rel="alternate" target="_blank"><svg viewBox="0 0 80 80" class="icon"><title>rss</title><circle cx="19.91" cy="58.23" r="6.86"/><path d="M67.89,65.72H55.7A41.86,41.86,0,0,0,13.89,23.91V11.73A54.06,54.06,0,0,1,67.89,65.72Z"/><path d="M48.93,65.72H36.75A22.88,22.88,0,0,0,13.89,42.87V30.68A35.08,35.08,0,0,1,48.93,65.72Z"/></svg></a></li>
       </ul>
     </nav>
@@ -61,29 +63,28 @@
       <ul class="cols">
         <li>
           <h3>Server Stats</h3>
+          <p>
           Location: Barcelona<br>
           Time: <span id="time">Local Time</span><br>
-          Battery Status: <div class="bat_status">
-            <!-- <svg class="bat_icon" viewBox="0 0 495.7 600"><title>Battery Icon</title><g><polygon class="svg_bat_icon" points="332.89 144.34 332.89 76.16 162.8 76.16 162.8 144.34 99.33 144.34 99.33 523.84 396.36 523.84 396.36 144.34 332.89 144.34"/></g></svg> -->
-            <span class="bat_status" id="dashboard_level">Battery Capacity</span>
-            <span id="charge_text">Charging / Draining</span></div><br>
-          Power Used: <span id="power">Power Usage</span><br>
-          Server: <span id="uptime">Uptime</span><br>
+          Battery Status:
+            <span class="bat_status" id="dashboard_level">battery capacity</span> capacity, <span id="charge_text">chargin / draining</span><br>
+          Power Used: <span id="power">power usage</span><br>
+          Uptime: <span id="uptime">up since</span><br>
+          </p>
         </li>
         <li>
           <h3>Forecast</h3>
           <div class="forecast"></div>
-          <a href="{{ SITEURL }}/weather/">more</a>
         </li>
         <li>
           <h3>Info</h3>
           <p>
-            <a href="/about/">About the site</a><br>
-            Support us at: <a href="https://www.paypal.me/lowtechmagazine">PayPal</a>,
-            <a href="https://www.patreon.com/lowtechmagazine">Patreon</a>, or
-            <a href="https://liberapay.com/lowtechmagazine/">LiberaPay</a>
+            <a href="{{ SITEURL }}/about.html">About the site</a><br>
+            <a href="{{ SITEURL }}/power.html">Power</a><br>
+            <a href="{{ SITEURL }}/colophon.html">Colophon</a><br>
+            <a href="{{ SITEURL }}/donate.html">Donate</a>
           </p>
-          <p><a href="{{ SITEURL }}/privacy/">Privacy Policy</a></p>
+          <p><a href="{{ SITEURL }}/privacy.html">Privacy Policy</a></p>
         </li>
         <li>
           <h3>Contact</h3>
@@ -103,11 +104,11 @@
       </ul>
     </div>
   </footer>
-  <!-- /#contentinfo -->
+<!-- /#contentinfo -->
 </main>
 
 <script>
-var url = "{{ SITEURL }}/api/stats.json";
+var url = "https://solar.lowtechmagazine.com/api/stats.json";
 var data;
 var solar_stats = [];
 var battery_stats = [];
@@ -118,12 +119,15 @@ var weather_data = ["today", "tomorrow", "day_after_t"];
 var weather_days = ["today", "tomorrow", "day after tomorrow"];
 var forecast = "";
 
+var battery_icon = '<svg class="icon" viewBox="0 0 500 500"><title>Battery used</title><g id="bat_used" data-name="Layer 5"><title>Battery used</title><polygon class="svg_stroke" points="327.01 127.16 327.01 47.31 172.99 47.31 172.99 127.16 115.52 127.16 115.52 452.69 384.48 452.69 384.48 127.16 327.01 127.16"/><polygon class="svg_fill" points="357.64 408.86 158.26 408.86 158.26 209.49 357.64 408.86"/></svg>';
+var solar_icon = '<svg class="icon" viewBox="0 0 500 500"><title>Solar used, battery charging</title><circle class="svg_fill" cx="248.48" cy="252.55" r="97.03"/><rect class="svg_fill" x="234.53" y="17.45" width="27.9" height="112.39"/><rect class="svg_fill" x="234.53" y="375.25" width="27.9" height="112.39"/><rect class="svg_fill" x="413.42" y="196.35" width="27.9" height="112.39" transform="translate(679.92 -174.83) rotate(90)"/><rect class="svg_fill" x="55.63" y="196.35" width="27.9" height="112.39" transform="translate(322.12 182.97) rotate(90)"/><rect class="svg_fill" x="361.03" y="69.85" width="27.9" height="112.39" transform="translate(198.96 -228.23) rotate(45)"/><rect class="svg_fill" x="108.03" y="322.85" width="27.9" height="112.39" transform="translate(303.75 24.77) rotate(45)"/><rect class="svg_fill" x="361.03" y="322.85" width="27.9" height="112.39" transform="translate(908.15 381.93) rotate(135)"/><rect class="svg_fill" x="108.03" y="69.85" width="27.9" height="112.39" transform="translate(297.35 128.93) rotate(135)"/></svg>';
+
 function getServerData() {
     var request = new XMLHttpRequest();
 
     request.open('GET', url, true);
     request.onload = function() {
-        if (request.status >= 200 && request.status < 400) {
+        if (request.readyState == 4 && request.status == 200) {
             data = JSON.parse(request.responseText);
             solar_stats = [
                 ["Power usage from solar", data.ac_power],
@@ -146,24 +150,20 @@ function getServerData() {
                 ["Battery capacity", data.bat_capacity]
             ];
             var level = data.bat_capacity;
-            document.querySelector('#battery').style.height = level;
-            document.querySelector('#bat_data').style.top = 100 - parseInt(level.slice(0, -1)) + "vh";
+            document.getElementById('battery').style.height = level;
+            document.getElementById('bat_data').style.top = 100 - parseInt(level.slice(0, -1)) + "vh";
 
             var bat_status = document.querySelectorAll('.bat_status');
             var power = "";
-            var bat_text = "draining";
+            var bat_text = "using battery";
 
             if (data.ac_power == "0W") {
                 power = data.bat_power;
-                [].forEach.call(bat_status, function(target) {
-                    target.classList.remove('charging');
-                });
+                charge_icon = battery_icon;
             } else {
                 power = data.ac_power;
-                bat_text = "charging";
-                [].forEach.call(bat_status, function(target) {
-                    target.classList.add('charging');
-                });
+                charge_icon = solar_icon;
+                bat_text = "charging battery";
             }
 
             for (i = 0; i < weather_data.length; i++) {
@@ -190,6 +190,7 @@ function getServerData() {
                 ['level', level],
                 ['dashboard_level', level],
                 ['power', power],
+                ['charge_icon', charge_icon],
                 ['charge_text', bat_text],
                 ['uptime', data.uptime],
                 ['time', data.local_time]
@@ -198,8 +199,9 @@ function getServerData() {
                 document.getElementById(data_content[i][0]).innerHTML = data_content[i][1];
             }
         }
-        if (document.title=="Full Server Stats"){
+        if (window.location.href.indexOf('power.html') > -1) {
           populateData();
+          console.log('reload stats');
         }
     };
     request.send();
@@ -209,6 +211,31 @@ getServerData();
 document.getElementById('menu-s').addEventListener('click', function() {
     document.getElementById('menu-list').classList.toggle("show");
 });
+
+//Remove TYPOGRIFY NBSP;s in headers
+var headings = document.querySelectorAll('h1');
+[].forEach.call(headings, function(target) {
+    target.innerHTML = target.innerHTML.replace(/&nbsp;/g, ' ');
+});
+
+function populateData() {
+    var stats = [];
+    function pushData(arr) {
+        for (i = 0; i < arr.length; i++) {
+            stats.push("<dt>" + arr[i][0] + "</dt><dd>" + arr[i][1] + "</dd>");
+        }
+    }
+    pushData(general_stats);
+    if (data.ac_used == "no") {
+        pushData(battery_stats);
+    } else {
+        pushData(solar_stats);
+    }
+    var dl = document.createElement('dl');
+    dl.classList.add('server');
+    dl.innerHTML = stats.join("");
+    document.getElementById('data').appendChild(dl);
+}
 
 </script>
 </body>
