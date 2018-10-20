@@ -114,7 +114,7 @@ var solar_stats = [];
 var battery_stats = [];
 var general_stats = [];
 
-var weather_ignore = ["snow", "sleet", "wind", "fog"];
+var weather_ignore = ["snow", "sleet", "wind", "fog"]; //because Barcelona is paradise
 var weather_data = ["today", "tomorrow", "day_after_t"];
 var weather_days = ["today", "tomorrow", "day after tomorrow"];
 var forecast = "";
@@ -129,6 +129,8 @@ function getServerData() {
     request.onload = function() {
         if (request.readyState == 4 && request.status == 200) {
             data = JSON.parse(request.responseText);
+
+            //set categories and descriptors for server stats
             solar_stats = [
                 ["Power usage from solar", data.ac_power],
                 ["Current draw from solar", data.ac_current],
@@ -149,6 +151,8 @@ function getServerData() {
                 ["Battery charging", data.bat_charging],
                 ["Battery capacity", data.bat_capacity]
             ];
+
+            //make battery level visible
             var level = data.bat_capacity;
             document.getElementById('battery').style.height = level;
             document.getElementById('bat_data').style.top = 100 - parseInt(level.slice(0, -1)) + "vh";
@@ -157,6 +161,7 @@ function getServerData() {
             var power = "";
             var bat_text = "using battery";
 
+            //if solar isn't used, battery is used, show battery power; otherwise, solar is used, battery is charging, show solar power
             if (data.ac_power == "0W") {
                 power = data.bat_power;
                 charge_icon = battery_icon;
@@ -167,21 +172,21 @@ function getServerData() {
             }
 
             for (i = 0; i < weather_data.length; i++) {
-                var key = weather_data[i];
-                var icon_name = key + "_icon";
-                var icon = data[icon_name];
-                var text = data[key];
-                var img;
-                if (weather_ignore.includes(icon)) {
-                    img = "cloudy";
-                } else {
-                    img = icon;
+                var key = weather_data[i]; //for each day
+                var icon_name = key + "_icon"; //today_icon, etc
+                var text = data[key]; //weather description
+
+                var weather_icon;
+                //use cloud icon for all overcast weather
+                if(weather_ignore.includes(data[icon_name])){
+                  weather_icon = "cloudy";
+                }else{
+                  weather_icon = data[icon_name];
                 }
-                forecast += '<span class="weather_day" id="' + key + '">' + weather_days[i] + ' <img class="weather" src="/extra/' + img + '.png" alt="' + text + '" title="' + text + '"></span><span class="weather_text"> ' + text + '</span>';
+                forecast += '<span class="weather_day" id="' + key + '" title="' + text + '">' + weather_days[i] + '</span><span class="weather_icon ' + weather_icon +'"> </span><span class="weather_text"> ' + text + '</span>';
             }
 
             var weatherinfo = document.querySelectorAll('.forecast');
-
             [].forEach.call(weatherinfo, function(target) {
                 target.innerHTML = forecast;
             });
@@ -201,7 +206,6 @@ function getServerData() {
         }
         if (window.location.href.indexOf('power.html') > -1) {
           populateData();
-          console.log('reload stats');
         }
     };
     request.send();
