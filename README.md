@@ -4,11 +4,9 @@ Solar is a pelican theme designed for <https://solar.lowtechmagazine.com>. It is
 
 The theme is designed to be extremely light and give visitors insight into the material conditions of the hardware the website runs on.
 
-To this end we've developed a [few custom pelican plugins](https://github.com/lowtechmag/solar-plugins) and [additional scripts](https://github.com/lowtechmag/materialserver).
+To this end we've developed a [few custom pelican plugins](https://github.com/lowtechmag/solar-plugins) and additional scripts called [materialserver](https://github.com/lowtechmag/materialserver). For this theme to work the plugins are *required*. The `materialserver` scripts are optional. 
 
 ## Installation of dependencies
-
-This theme is based on Pelican and a few custom plugins.
 
 To generate the website you will need to install some basic utilities. Instructions are for machines based on Debian stretch.
 
@@ -20,5 +18,11 @@ Installing pelican:
 
 Installing dependencies for the plugins:
 `sudo pip3 install Pillow bs4 git+https://www.github.com/hbldh/hitherdither webassets libsass cssmin`
+
+Install the plugins themselves:
+
+`git clone https://github.com/lowtechmag/solar-plugins`
+
+make sure you add that folder to the list of `PLUGIN_PATHS` in `pelicanconf.py`
 
 
