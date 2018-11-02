@@ -22,7 +22,7 @@
       </li>
     </ul>
     <ul class="cols recent">
-      {% for article in articles_page.object_list[1 : 9] %}
+      {% for article in articles_page.object_list[1:] %}
       <li class="{{article.category|lower|truncate(3,True, '')}}">
         <article>
           <a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark" title="Permalink to {{ article.title|striptags }}">
@@ -41,7 +41,7 @@
     </ul>
     <!-- /posts-list -->
     <ul class="cols popular">
-      {% for article in articles[9:] %} {% if article.display == "cover" %}
+      {% for article in articles[12:] %} {% if article.display == "cover" %}
       <li class="{{article.category|lower|truncate(3,True, '')}}">
 
           <article>
