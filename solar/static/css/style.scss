@@ -32,6 +32,11 @@ body {
 	background: $color_sky;
 }
 
+img {
+	image-rendering: pixelated;
+	image-rendering: -moz-crisp-edges;
+}
+
 h1, h2, h3, h4, h5, h6 {
 	font-weight: normal;
 }
@@ -737,7 +742,8 @@ footer {
 .clear-night {
   background-position: -60px 0;
 }
-.partly-cloudy-night {
+
+.partly-cloudy-night {
   background-position: -80px 0;
 }
 .rain {
